@@ -54,10 +54,27 @@ app.get('/', (req, res)=>{
 
 const run = async()=>{
     try {
+
+        // mongodb connection
+        client.connect()
+
+        const plantsCollection = client.db("flora_tracker_DB").collection("plants");
+
+        /*
+        |--------------------------------------------------------------------------
+        | all route
+        |--------------------------------------------------------------------------
+        */
+
         app.get('/plants', (req, res)=>{
             res.send('all trees will be here')
         })
 
+        app.post('/plants', async(req, res)=>{
+            const newPlant = req.body
+            const result = await plantsCollection.insertOne(newPlant)
+            res.send(result)
+        })
 
         // send a ping to suer connection is correct
         const ping = await client.db('flora_tracker_DB').command({ping: 1})
