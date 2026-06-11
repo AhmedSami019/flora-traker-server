@@ -66,8 +66,9 @@ const run = async()=>{
         |--------------------------------------------------------------------------
         */
 
-        app.get('/plants', (req, res)=>{
-            res.send('all trees will be here')
+        app.get('/plants', async(req, res)=>{
+            const result = await plantsCollection.find().toArray()
+            res.send(result)
         })
 
         app.post('/plants', async(req, res)=>{
