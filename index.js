@@ -84,6 +84,16 @@ const run = async()=>{
             res.send(result)
         })
 
+        app.patch('/plants/:id', async(req, res)=>{
+            const id = req.params.id
+            const filter = {_id : new ObjectId(id)}
+            const updatedDoc = {
+                $set: req.body
+            }
+            const result = await plantsCollection.updateOne(filter, updatedDoc)
+            res.send(result)
+        })
+
         // send a ping to suer connection is correct
         const ping = await client.db('flora_tracker_DB').command({ping: 1})
         if(ping.ok === 1){
